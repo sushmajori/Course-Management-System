@@ -59,33 +59,36 @@ font-family: 'Alata', sans-serif;">
     </div>
             
    <h6> Enroll Subject</h6> 
-   <a href="">
+   
    <%
-       sql = "select course_name from course where course_id in(select course_id from course_student);" ;
+      
+       sql = "select course_name from course where course_id in(select distinct(course_id) from course_student where student_id =" + prn + ")" ;
        preparedStatement = conn.prepareStatement(sql);
        rs = preparedStatement.executeQuery();
        while(rs.next()) {
-            out.println(rs.getString(1));
+           %><a href="coursecontent?course=<%out.println(rs.getString(1)); %>"><%out.println(rs.getString(1));%></a><%
+            
 //            out.println(rs.getString(2));
 //            out.println(rs.getString(3));
             
 
         }
    %>
-   </a>
+   
    <h6>Unenroll Subject</h6>
-   <%
-       sql = "select course_name from course where course_id not in(select course_id from course_student);";
+   
+    <%
+       sql = "select course_name from course where course_id not in(select distinct(course_id) from course_student where student_id =" + prn + ")";
        preparedStatement = conn.prepareStatement(sql);
        rs = preparedStatement.executeQuery();
        while(rs.next()) {
-            out.println(rs.getString(1));
+           out.println(rs.getString(1));%><br/><%
 //            out.println(rs.getString(2));
 //            out.println(rs.getString(3));q
         }
    %>
+   <br>
    
-   <label onclick="EnrollConfirm()">Java</label>
 
 <script>
 function EnrollConfirm() {
@@ -93,8 +96,5 @@ function EnrollConfirm() {
 }
 </script>
    
-
-  
-<
 </body>
 </html>
